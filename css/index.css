@@ -1,0 +1,18 @@
+.ui-f{
+    background-color:#D37D00;
+    text-align: center;
+}
+
+.ui-fondo{
+background-repeat: no-repeat;
+background-size: cover;
+}
+
+.imgfija{
+    box-shadow: 0px 4px 7px black;
+    width:100%;
+}
+
+#map{
+    width: 100%;
+}
