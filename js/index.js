@@ -205,20 +205,38 @@ function initMap(){
         }
     });    
 
+    var caminoNuevo = [];
+    var lineaAdibujar = new google.maps.Polyline({
+                path: caminoNuevo,
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+    });
+
+   lineaAdibujar.setMap(map);
+
+
+
 
 
 
     var grabando = false; 
-    var caminoNuevo = [];
+
     var grabaCaminos = { 
 
         grabarPunto: function(punto){
-
             if(caminoNuevo.length == 0)
                 caminoNuevo.push( {lat: punto.H, lng: punto.L});
             else
                  caminoNuevo.push( {lat: punto.H, lng: punto.L});
                // caminoNuevo.push({location: new google.maps.LatLng(punto.H, punto.L), stopover: false})  
+
+            var path = lineaAdibujar.getPath();
+
+            lineaAdibujar.strokeColor = "green";
+
+            path.push(punto);
         },
 
         finalizarCamino: function(){//RETURNS A STRING WITH PATH POINTS
@@ -255,7 +273,24 @@ function initMap(){
             grabando = false;
             grabaCaminos.finalizarCamino();
         }
+
+        if(event.keyCode == 71){
+            console.log("Borrado " + caminoNuevo.pop()+ lineaAdibujar.getPath().pop());
+        }
+
     });
 
 
+}
+
+
+
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
