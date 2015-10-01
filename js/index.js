@@ -57,6 +57,12 @@ function initMap(){
     if(!window.app)
     window.app ={
 
+        rutaActual : [],
+
+        rutas: [],
+
+        poliLynes: [],
+
         cargarMapa: function(){
             directionsDisplay.setMap(map);
         },
@@ -181,30 +187,77 @@ function initMap(){
             }
         },*/
 
-        displayPolyLine: function(ruta){
+        togglePolyLines: function(ida_o_vuelta){
+
+
+            var index = this.rutas.indexOf(this.rutaActual);
+
+            if(index == -1)
+                return;
+
+            lineaEnCuestion = this.poliLynes[index][ida_o_vuelta];
+
+
+            if(lineaEnCuestion.getMap() == null)
+                lineaEnCuestion.setMap(map);
+            else
+                lineaEnCuestion.setMap(null);
+
+
+        },
+
+
+
+
+        displayPolyLine: function(data){ //pasa la linea y cuales desplegar
+
+
+
+             var lineSymbol = {
+                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+              };
+
+            this.rutas.push(data.ruta);
+            this.rutaActual =data.ruta;
+
 
             ruta1 = new google.maps.Polyline({
-                path: ruta.ida,
+                path: data.ruta.ida,
                 geodesic: true,
                 strokeColor: "rgb(255,50,50)",
                 strokeOpacity: 0.7,
-                strokeWeight: 3
+                strokeWeight: 3,
+                icons: [{
+                  icon: lineSymbol,
+                  offset: '100%'
+                }]
+
+
             });
 
             ruta1.setMap(map);
 
              ruta2 = new google.maps.Polyline({
-                path: ruta.vuelta,
+                path: data.ruta.vuelta,
                 geodesic: true,
-                strokeColor: "rgb(50,255,50)",
+                strokeColor: "rgb(15,255,25)",
                 strokeOpacity: 0.7,
-                strokeWeight: 3
+                strokeWeight: 3,
+                icons: [{
+                  icon: lineSymbol,
+                  offset: '100%'
+                }]
             });
 
             ruta2.setMap(map);
 
-            map.setCenter(ruta.ida[parseInt(10)]);
-            map.setZoom(14);
+
+            this.poliLynes.push({ida: ruta1, vuelta: ruta2});
+
+
+
+            map.setCenter(data.ruta.ida[parseInt(data.ruta.ida.length/2)]);
+            map.setZoom(12,8);
         }
 
 
@@ -219,7 +272,7 @@ function initMap(){
     });*/
 
     $("#link_linea1").click(function(){ 
-        app.displayPolyLine(linea3);
+        app.displayPolyLine({ruta:linea3});
     });
 
 
@@ -312,7 +365,43 @@ function initMap(){
     });
 
 
-    $("#link_linea1").click();
+    $("#link_linea1").click();  
+
+    (function() {
+
+
+            $(":jqmData(role='page')#LineasShower").one("pageshow", function(event) {
+            $("#LineasShower").undelegate('a', 'vclick');
+  
+           $('a.ida').click(function(){
+                app.togglePolyLines("ida");
+           })
+            
+            $('a.vuelta').click(function(){
+                app.togglePolyLines("vuelta");
+           })
+
+        
+
+
+            $("#LineasShower").on("vclick click", function (e) {
+
+              e.preventDefault();
+              e.stopImmediatePropagation();
+
+              $(e.target).closest('a').toggleClass($.mobile.activeBtnClass);
+
+
+
+
+            });
+          });
+
+
+
+    })();
+
+
 
 
 }
