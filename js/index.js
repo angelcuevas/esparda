@@ -38,7 +38,7 @@ function initMap(){
         ]
     };
 
-     var map = new google.maps.Map($map, {
+     map = new google.maps.Map($map, {
         zoom: 14,
         center: {lat: -29.415742761836693, lng: -66.85974597930908}
     });
@@ -317,11 +317,6 @@ function initMap(){
 
 }
 
-
-
-
-
-
 function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
     var color = '#';
@@ -332,30 +327,24 @@ function getRandomColor() {
 }
 
 function tuposicion(){
-var latitude=null;
-var longitude=null;
+    var latitude=null;
+    var longitude=null;
 
-var mapDiv = document.getElementById('map');
+    if (navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(position){
+            latitude=position.coords.latitude;
+            longitude=position.coords.longitude;
 
-if (navigator.geolocation){
-navigator.geolocation.getCurrentPosition(function(position){
-latitude=position.coords.latitude;
-longitude=position.coords.longitude;
+            var punto = new google.maps.LatLng(latitude,longitude);
 
-var punto = new google.maps.LatLng(latitude,longitude);
+            var marker = new google.maps.Marker({
+                position:punto,
+                map: map,
+                title: 'Tú!'
+            });
+            map.setCenter(punto);
 
-var options2 = {
-center: punto,
-zoom: 12,
-mapTypeId: google.maps.MapTypeId.ROADMAP
-};
-var mapa = new google.maps.Map(mapDiv, options2);
-var marker = new google.maps.Marker({
-    position:punto ,
-    map: mapa,
-    title: 'Tú!'
-  });
-})
-}
-else { alert("No Se pudo encontrar tu localización"); }
+        })
+    }
+    else { alert("No Se pudo encontrar tu localización"); }
 }
