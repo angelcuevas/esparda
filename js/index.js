@@ -407,28 +407,25 @@ function getRandomColor() {
 
 
 position ={
-    lastLatLng,
+    lastLatLng : null,
     markers : [],
     MarkYourCurrentPosition: function(){
-        var position = this.getYourPosition();
-        this.addMarkerwithMyPosition(position,map);
-    },
-    getYourPosition: function(){
-        var latitude=null;
-        var longitude=null;
-
+        _this = this;
         if (navigator.geolocation){
             navigator.geolocation.getCurrentPosition(function(position){
-                var latitude = position.coords.latitude;
-                var longitude = position.coords.longitude;
-                this.lastLatLng = new google.maps.LatLng(latitude,longitude);
-                console.log(this.lastLatLng);
-                return this.lastLatLng;
+                newPosition = _this.createGoogleMapLatLng(position);
+                _this.addMarkerwithMyPosition(newPosition,map);
             });
         }
         else {
             console.log("No Se pudo encontrar tu localización"); 
         }
+    },
+    createGoogleMapLatLng : function(position){
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        this.lastLatLng = new google.maps.LatLng(latitude,longitude);
+        return this.lastLatLng;
     },
     addMarkerwithMyPosition: function(LatLng,map){
         var marker = new google.maps.Marker({
