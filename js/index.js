@@ -1,7 +1,7 @@
 $map = document.getElementById("map");
 
 $(window).ready(function () {
-    $("#map").height( $(document).height() - (105) ); //console.log($("#map-header").outerHeight());
+    $("#map").height( $(document).height() - (105) ); //console.log($("#map-header").outerHeight()); tudú;
 });
 
 
@@ -142,7 +142,7 @@ function initMap(){
             return arreglo;
 
         },
-        displayEntireRoute: function(numeroDeLinea){
+       /* displayEntireRoute: function(numeroDeLinea){
 
             var that = this;
 
@@ -179,17 +179,48 @@ function initMap(){
 
                     
             }
+        },*/
+
+        displayPolyLine: function(ruta){
+
+            ruta1 = new google.maps.Polyline({
+                path: ruta.ida,
+                geodesic: true,
+                strokeColor: "rgb(255,50,50)",
+                strokeOpacity: 0.7,
+                strokeWeight: 3
+            });
+
+            ruta1.setMap(map);
+
+             ruta2 = new google.maps.Polyline({
+                path: ruta.vuelta,
+                geodesic: true,
+                strokeColor: "rgb(50,255,50)",
+                strokeOpacity: 0.7,
+                strokeWeight: 3
+            });
+
+            ruta2.setMap(map);
+
+            map.setCenter(ruta.ida[parseInt(10)]);
+            map.setZoom(14);
         }
+
+
     }
 
     app.cargarMapa();
 
 
-    $("#linea1").on("pageshow" , function() {
+    /*$("#linea1").on("pageshow" , function() {
        //app.displayRoute("linea1")  <---------PROBLEMA DE LIMITE 8
        app.displayEntireRoute("linea3_ida") //<---------SUPUESTA SOLUCIÓN
-    });
+    });*/
 
+    $("#link_linea1").click(function(){ 
+        app.displayPolyLine(linea3);
+    });
 
 
 
@@ -281,7 +312,12 @@ function initMap(){
     });
 
 
+    $("#link_linea1").click();
+
+
 }
+
+
 
 
 

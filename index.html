@@ -45,7 +45,7 @@
 
 			<div data-role="collapsible" > <h4 > Recorridos</h4>
 				<ul data-role="listview">
-					<li> <a href="#linea1">Linea 1</a></li>
+					<li> <a id="link_linea1" href="#LineasShower">Linea 1</a></li>
 					<li> <a href="">Linea2</a></li>
 					<li> <a href="#popup1" data-rel="popup" data-transition="popup">Linea 3</a></li>
 					<li> <a href="">Linea 4</a></li>
@@ -67,13 +67,24 @@
 		</div>
 	</div>
 
+<<<<<<< HEAD
 	<div data-role="page" id="linea1">
 	
+=======
+	<div data-role="page" id="LineasShower">
+>>>>>>> 7ab77ebdc630619ed387756c2f0091cda3273e7d
 		<div data-role="panel" data-display="overlay" data-position="left" id="panel1">
 			<button data-icon="delete" style="width:10px;" data-icompos="no-text" data-rel="close" data-theme="b"></button>
 
 			<div data-role="header" class="ui-b" data-theme="b">
-				<h1 >Menu</h1>
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#" data-icon="carat-l"></a></li>
+						<li><a href="#" data-icon="user"></a></li>
+						<li><a href="#" data-icon="carat-r"></a></li>
+					</ul>
+				</div>
+				
 			</div>
 
 			<div data-role="content">
@@ -94,6 +105,7 @@
 		<div data-role="header" class="ui-b" data-theme="b">
 			<h1>Bienvenidos</h1>
 			<a href="#panel1" data-role="button" data-icon="bars" data-icompos="no-text" data-theme="b"></a>
+<<<<<<< HEAD
 			<a href="#" data-role="button" data-icon="back" data-rel="back" data-iconpos="n
 			otext"></a>
 				<div data-role="navbar">
@@ -103,6 +115,9 @@
 		   <li > <a href="#pagina3" data-role="button" transition="slider"	 data-icon="info"></a></li>
 		 </ul>
 		</div>
+=======
+			<a href="#" data-role="button" data-icon="back" data-rel="back" data-iconpos="notext"></a>
+>>>>>>> 7ab77ebdc630619ed387756c2f0091cda3273e7d
 		</div>
 
 		<div data-role="content" class="ui-fondo" data-theme="fondo">
@@ -126,6 +141,7 @@
 	<SCRIPT TYPE="text/javascript" src="jquery.mobile/jquery.mobile-1.4.5.js"></SCRIPT>
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&language=es&callback=initMap"></script>
 	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="js/lineas.js"></script>
 </div>
 </body>
 </html>
