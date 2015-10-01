@@ -345,6 +345,9 @@ function tuposicion(){
             map.setCenter(punto);
 
         })
+    return punto;
     }
-    else { alert("No Se pudo encontrar tu localización"); }
+    else {
+        console.log("No Se pudo encontrar tu localización"); 
+    }
 }
