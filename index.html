@@ -68,6 +68,7 @@
 	</div>
 
 	<div data-role="page" id="linea1">
+	
 		<div data-role="panel" data-display="overlay" data-position="left" id="panel1">
 			<button data-icon="delete" style="width:10px;" data-icompos="no-text" data-rel="close" data-theme="b"></button>
 
@@ -76,12 +77,16 @@
 			</div>
 
 			<div data-role="content">
+			
 				<ul data-role="listview"> 
 					<li> <a href="#"> Inicio</a></li>
 				</ul>
 			</div>
 
-			<div data-role="footer" class="ui-f" data-theme="f">
+			<div data-role="footer"   data-position="fixed" class="ui-f" data-theme="f">
+			
+	
+		
 				<br>
 			</div>
 		</div>
@@ -91,6 +96,13 @@
 			<a href="#panel1" data-role="button" data-icon="bars" data-icompos="no-text" data-theme="b"></a>
 			<a href="#" data-role="button" data-icon="back" data-rel="back" data-iconpos="n
 			otext"></a>
+				<div data-role="navbar">
+		 <ul>
+		
+			<li > <a href="#"  onclick="tuposicion()" data-role="button"	 data-icon="location"></a></li>
+		   <li > <a href="#pagina3" data-role="button" transition="slider"	 data-icon="info"></a></li>
+		 </ul>
+		</div>
 		</div>
 
 		<div data-role="content" class="ui-fondo" data-theme="fondo">

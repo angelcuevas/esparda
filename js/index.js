@@ -294,3 +294,32 @@ function getRandomColor() {
     }
     return color;
 }
+
+function tuposicion(){
+var latitude=null;
+var longitude=null;
+
+var mapDiv = document.getElementById('map');
+
+if (navigator.geolocation){
+navigator.geolocation.getCurrentPosition(function(position){
+latitude=position.coords.latitude;
+longitude=position.coords.longitude;
+
+var punto = new google.maps.LatLng(latitude,longitude);
+
+var options2 = {
+center: punto,
+zoom: 12,
+mapTypeId: google.maps.MapTypeId.ROADMAP
+};
+var mapa = new google.maps.Map(mapDiv, options2);
+var marker = new google.maps.Marker({
+    position:punto ,
+    map: mapa,
+    title: 'Tú!'
+  });
+})
+}
+else { alert("No Se pudo encontrar tu localización"); }
+}
