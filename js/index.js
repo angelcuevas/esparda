@@ -391,19 +391,9 @@ function initMap(){
 
               $(e.target).closest('a').toggleClass($.mobile.activeBtnClass);
 
-
-
-
             });
           });
-
-
-
     })();
-
-
-
-
 }
 
 function getRandomColor() {
@@ -415,28 +405,38 @@ function getRandomColor() {
     return color;
 }
 
-function tuposicion(){
-    var latitude=null;
-    var longitude=null;
 
-    if (navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(function(position){
-            latitude=position.coords.latitude;
-            longitude=position.coords.longitude;
+position ={
+    lastLatLng,
+    markers : [],
+    MarkYourCurrentPosition: function(){
+        var position = this.getYourPosition();
+        this.addMarkerwithMyPosition(position,map);
+    },
+    getYourPosition: function(){
+        var latitude=null;
+        var longitude=null;
 
-            var punto = new google.maps.LatLng(latitude,longitude);
-
-            var marker = new google.maps.Marker({
-                position:punto,
-                map: map,
-                title: 'Tú!'
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(function(position){
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                this.lastLatLng = new google.maps.LatLng(latitude,longitude);
+                console.log(this.lastLatLng);
+                return this.lastLatLng;
             });
-            map.setCenter(punto);
-
-        })
-    return punto;
-    }
-    else {
-        console.log("No Se pudo encontrar tu localización"); 
+        }
+        else {
+            console.log("No Se pudo encontrar tu localización"); 
+        }
+    },
+    addMarkerwithMyPosition: function(LatLng,map){
+        var marker = new google.maps.Marker({
+            position:LatLng,
+            map: map,
+            title: 'Tú!'
+        });
+        map.setCenter(LatLng);
+        this.markers.shift(marker);
     }
 }
