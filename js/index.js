@@ -559,7 +559,7 @@ function initMap(){
     });
 
 
-    $("#link_linea6").click();  
+    $("#link_linea1").click();  
 
     (function() {
 
