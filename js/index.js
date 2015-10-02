@@ -649,6 +649,7 @@ position = {
                 this.getMatrixResponses(LatLng, app.rutaActual.paradas_vuelta); //TODO PARADAS DINAMICAS
             }
 
+            this.distanceMatrixResponses = [];
             console.log("map: ", map);
         }
 
