@@ -415,6 +415,10 @@ function initMap(){
         app.displayPolyLine({ruta:linea3});
     });
 
+    $("#link_linea6").click(function(){ 
+        app.displayPolyLine({ruta:linea6});
+    });
+
 
 
 
@@ -555,7 +559,7 @@ function initMap(){
     });
 
 
-    $("#link_linea1").click();  
+    $("#link_linea6").click();  
 
     (function() {
 
@@ -701,6 +705,7 @@ position = {
             return null;
         }else{
             console.log("matrixresponse", this.distanceMatrixResponses);
+
             for (var i = 0; i <= this.distanceMatrixResponses.length - 1; i++) {
                 for (var j = 0; j <= this.distanceMatrixResponses[i].rows[0].elements.length - 1; j++) {
                     if (this.distanceMatrixResponses[i].rows[0].elements[j].distance.value < _this.distanciaMinima) {
