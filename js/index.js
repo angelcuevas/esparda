@@ -63,9 +63,12 @@ function initMap(){
 
         poliLynes: [],
 
+        marcadores: [],
+
         cargarMapa: function(){
             directionsDisplay.setMap(map);
         },
+
         displayRoute: function(numeroDeLinea){
 
             directionsDisplay.polylineOptions.strokeColor = "yellow";
@@ -148,7 +151,7 @@ function initMap(){
             return arreglo;
 
         },
-       /* displayEntireRoute: function(numeroDeLinea){
+        displayEntireRoute: function(numeroDeLinea){
 
             var that = this;
 
@@ -185,7 +188,7 @@ function initMap(){
 
                     
             }
-        },*/
+        },
 
         togglePolyLines: function(ida_o_vuelta){
 
@@ -202,11 +205,146 @@ function initMap(){
                 lineaEnCuestion.setMap(map);
             else
                 lineaEnCuestion.setMap(null);
+        },
+
+        fadeMarkerOut: function(marker){
+
+            if(marker.map ==null || marker.opacity <0.7)
+                return;
+
+           var fadeOut = setInterval(function () {
+                 opacity = marker.opacity - 0.1;
+                marker.setOptions({'opacity': opacity});
+
+             }, 200)
+
+           if(marker.opacity <=0){
+                clearInterval(fadeOut)
+                marker.setMap(null);    
+           }
+            
+        },
+
+
+        fadeMarkerIn: function(marker){
+
+
+            if(marker.map!=null || marker.opacity > 0 )
+                return;
+
+             marker.setMap(map)
+
+            console.log(marker);
+
+
+           var fadeIn = setInterval(function () {
+                 opacity = marker.opacity + 0.1;
+                marker.setOptions({'opacity': opacity});
+
+             }, 200)
+
+           if(marker.opacity >=0.7){
+                clearInterval(fadeIn)
+           }
+            
+        },
+
+
+
+        showSingleMarker: function(punto){
+
+            var that = this;
+            var index = this.rutas.indexOf(this.rutaActual);
+            var paradas = this.marcadores[index];
+
+            if(this.poliLynes[index].ida.getMap()!=null){
+
+                $.each(paradas.ida, function( ind, parada ) {  
+                    var distancia = that.getDistance(punto, parada.position);
+                    
+                    if(distancia < 350 ){
+                        if(parada.map == null){
+                           // that.fadeMarkerIn(parada);
+                           parada.setMap(map);
+                        }
+                    }
+                    else{
+     
+                        if(parada.map != null){
+                            //that.fadeMarkerOut(parada);
+                            parada.setMap(null);
+                        }
+
+                    }
+                });
+            }else{
+                 $.each(paradas.ida, function( ind, parada ) {
+                    parada.setMap(null);
+                 })
+            }
+           
 
 
         },
 
+        makeMarcadores: function(puntos){
 
+            var marcadores = [];
+
+            var shape = {
+                coords: [1, 1, 1, 20, 18, 20, 18, 1],
+                type: 'poly'
+            };  
+
+
+            var image = {
+              url: "image/bus-marker-icon.png",
+              size: new google.maps.Size(40, 60),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(20, 55),
+              scaledSize: new google.maps.Size(40, 60)
+            };
+
+
+            for(var i=0; i<puntos.length; i++){
+
+                 var marker = new google.maps.Marker({
+                    position:puntos[i],
+                   // map: map,
+                    shape: shape,
+                    title: "Parada "+  parseInt(i + 1),
+                    icon: image,
+                    zIndex: i+1,
+                    opacity: 0.7
+                  });
+
+                 marcadores.push(marker);
+            }
+
+
+            return marcadores;
+
+        },
+
+        rad : function(x) {
+          return x * Math.PI / 180;
+        },
+
+        getDistance : function(p1, p2) {
+
+            var rad = this.rad;
+
+
+          var R = 6378137; // Earth’s mean radius in meter
+          var dLat = rad(p2.lat() - p1.lat());
+          var dLong = rad(p2.lng() - p1.lng());
+          var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) *
+            Math.sin(dLong / 2) * Math.sin(dLong / 2);
+          var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+          var d = R * c;
+          return d; // returns the distance in meter
+        },
 
 
         displayPolyLine: function(data){ //pasa la linea y cuales desplegar
@@ -253,7 +391,7 @@ function initMap(){
 
 
             this.poliLynes.push({ida: ruta1, vuelta: ruta2});
-
+            this.marcadores.push({ida:this.makeMarcadores(data.ruta.paradas_ida)});
 
 
             map.setCenter(data.ruta.ida[parseInt(data.ruta.ida.length/2)]);
@@ -289,7 +427,17 @@ function initMap(){
         }
     });    
 
+    google.maps.event.addListener(map, 'mousemove', function(event){
+        app.showSingleMarker(map.getCenter());
+    })
+
+
+
+
+
     var caminoNuevo = [];
+    var setDeMarcadoresNuevo = [];
+    
     var lineaAdibujar = new google.maps.Polyline({
                 path: caminoNuevo,
                 geodesic: true,
@@ -306,6 +454,7 @@ function initMap(){
 
 
     var grabando = false; 
+    var grabando_conMarcadores = false;
 
     var grabaCaminos = { 
 
@@ -318,9 +467,12 @@ function initMap(){
 
             var path = lineaAdibujar.getPath();
 
+            if (grabando_conMarcadores == true)
+               this.grabarMarcador(punto);
+            else{
             lineaAdibujar.strokeColor = "green";
-
             path.push(punto);
+            }
         },
 
         finalizarCamino: function(){//RETURNS A STRING WITH PATH POINTS
@@ -341,6 +493,31 @@ function initMap(){
             }
 
             console.log(str);
+        },
+
+        borrarLastMarcador: function(){
+
+            if(!setDeMarcadoresNuevo.length>0)
+                return;
+
+
+            var marker = setDeMarcadoresNuevo[setDeMarcadoresNuevo.length-1];
+            marker.setMap(null);
+
+            setDeMarcadoresNuevo.pop();
+
+        },  
+
+        grabarMarcador: function(punto){
+
+            var marker = new google.maps.Marker({
+                position:punto,
+                map: map,
+                title: "Parada "+  parseInt(setDeMarcadoresNuevo.length + 1)
+            });
+
+            setDeMarcadoresNuevo.push(marker);
+
         }
 
 
@@ -348,6 +525,13 @@ function initMap(){
 
 
     document.addEventListener('keyup',function(event){
+
+        if(event.keyCode == 77){
+            grabando_conMarcadores = true;
+            console.log("Marcadores");
+        }
+
+
         if(event.keyCode == 82){
             grabando = true;
             console.log("Nuevo Camino");
@@ -359,6 +543,10 @@ function initMap(){
         }
 
         if(event.keyCode == 71){
+
+            if(grabando_conMarcadores)
+                grabaCaminos.borrarLastMarcador();
+
             console.log("Borrado " + caminoNuevo.pop()+ lineaAdibujar.getPath().pop());
         }
 
