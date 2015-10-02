@@ -1,4 +1,6 @@
 $map = document.getElementById("map");
+idaPresionado = true;
+vueltaPresionado = true;
 
 $(window).ready(function () {
     $("#map").height( $(document).height() - (105) ); //console.log($("#map-header").outerHeight()); tudú;
@@ -563,10 +565,12 @@ function initMap(){
   
            $('a.ida').click(function(){
                 app.togglePolyLines("ida");
+                idaPresionado = !idaPresionado;
            })
             
             $('a.vuelta').click(function(){
                 app.togglePolyLines("vuelta");
+                vueltaPresionado = !vueltaPresionado;
            })
 
         
@@ -594,9 +598,13 @@ function getRandomColor() {
 }
 
 
-position ={
+position = {
     lastLatLng : null,
     markers : [],
+    distanceMatrixResponses : [],
+    distanciaMinima : Infinity,
+    LatLngMinimo : null,
+
     MarkYourCurrentPosition: function(){
         _this = this;
         if (navigator.geolocation){
@@ -616,12 +624,120 @@ position ={
         return this.lastLatLng;
     },
     addMarkerwithMyPosition: function(LatLng,map){
-        var marker = new google.maps.Marker({
-            position:LatLng,
-            map: map,
-            title: 'Tú!'
+
+        if(idaPresionado && vueltaPresionado){
+            alert("Desmarque ruta de ida o vuelta, sólo se puede seleccionar una");
+        }else{
+
+            var marker = new google.maps.Marker({
+                position:LatLng,
+                map: map,
+                title: 'Tú!'
+            });
+            map.setCenter(LatLng);
+            this.markers.push(marker);
+
+            if (idaPresionado){
+                this.getMatrixResponses(LatLng, app.rutaActual.paradas_ida); //TODO PARADAS DINAMICAS
+            }
+            
+            if (vueltaPresionado){
+                this.getMatrixResponses(LatLng, app.rutaActual.paradas_vuelta); //TODO PARADAS DINAMICAS
+            }
+
+            console.log("map: ", map);
+        }
+
+    },
+    getShorterLocation: function(paradas){
+        for (var i = paradas.length - 1; i >= 0; i--) {
+            paradas[i]
+        };
+    },
+    /*calculateDistance: function(puntoUno, puntoDos){ //this shit doesnt work
+        var url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + puntoUno.H + "," + puntoUno.L + "&destinations=" +  puntoDos.H + "," + puntoDos.L;
+        console.log(url);
+        $.getJSON( "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + puntoUno.H + "," + puntoUno.L + "&destinations=" +  puntoDos.H + "," + puntoDos.L, function( data ) {
+        })
+        .done(function( data ) {
+          console.log(data);
+        })
+        .fail(function( jqxhr, textStatus, error ) {
+            var err = textStatus + ", " + error;
+            console.error( jqxhr );
         });
-        map.setCenter(LatLng);
-        this.markers.shift(marker);
+    },*/
+    getMatrixResponses: function(origen, destinos){
+        var service = new google.maps.DistanceMatrixService;
+        _this = this;
+
+        for (var i = 0; i <= destinos.length - 1; i = i + 25) {
+            service.getDistanceMatrix({
+                origins: [origen],
+                destinations: destinos.slice(i,i+24),
+                travelMode: google.maps.TravelMode.DRIVING,
+                unitSystem: google.maps.UnitSystem.METRIC,
+                avoidHighways: false,
+                avoidTolls: false
+                },
+                function(response, status) {
+                    if (status !== google.maps.DistanceMatrixStatus.OK) {
+                        alert('Error was: ' + status);
+                    } else {
+                        console.log("En response (distanceMatrixResponses.length)", _this.distanceMatrixResponses.push(response), " response:", response);
+                        _this.findTheShorterPath(origen, destinos);
+                    }
+                }
+            );
+        }//endfor
+    },
+    findTheShorterPath : function(origen, destinos){
+        var _this = this;
+        var iIndex;
+        var jIndex;
+        var puntoDestino;
+
+        if(this.distanceMatrixResponses.length < (Math.ceil(destinos.length / 25))){
+            return null;
+        }else{
+            console.log("matrixresponse", this.distanceMatrixResponses);
+            for (var i = 0; i <= this.distanceMatrixResponses.length - 1; i++) {
+                for (var j = 0; j <= this.distanceMatrixResponses[i].rows[0].elements.length - 1; j++) {
+                    if (this.distanceMatrixResponses[i].rows[0].elements[j].distance.value < _this.distanciaMinima) {
+                        _this.distanciaMinima = this.distanceMatrixResponses[i].rows[0].elements[j].distance.value;
+                        iIndex = i;
+                        jIndex = j;
+                    }
+                }
+            }
+
+            console.log("distanciaMinima: ", _this.distanciaMinima + "   i:" + iIndex + "j:" + jIndex);
+            puntoDestino = destinos[(iIndex * 25) + jIndex];
+            
+            console.log("puntoDestino", puntoDestino);
+
+            var directionsDisplay = new google.maps.DirectionsRenderer();
+            var directionsService = new google.maps.DirectionsService();
+
+            directionsDisplay.setMap(map);
+            var request = {
+                origin:origen,
+                destination:puntoDestino,
+                travelMode: google.maps.TravelMode.DRIVING
+            };
+            directionsService.route(request, function(result, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+              directionsDisplay.setDirections(result);
+            }
+            });
+
+        this.distanceMatrixResponses = [];
+
+        }
+    },
+    testCalculateDistance: function(){
+        var puntoUno = new google.maps.LatLng(-29.402248596717108,-66.8723577260971);
+        
+        this.getMatrixResponses(puntoUno, linea3.paradas_ida);
     }
 }
