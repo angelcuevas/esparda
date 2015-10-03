@@ -558,17 +558,11 @@ function initMap(){
 
     });
 
-    $("#link_linea1").click();  
+    app.displayPolyLine({ruta:linea3});
 }
 
 
-    (function() {
-
-
-            $(":jqmData(role='page')#LineasShower").one("pageshow", function(event) {
-            $("#LineasShower").undelegate('a', 'vclick');
-  
-           $('a.ida').click(function(){
+           /*$('a.ida').click(function(){
                 app.togglePolyLines("ida");
                 idaPresionado = !idaPresionado;
            })
@@ -576,21 +570,7 @@ function initMap(){
             $('a.vuelta').click(function(){
                 app.togglePolyLines("vuelta");
                 vueltaPresionado = !vueltaPresionado;
-           })
-
-        
-
-
-            $("#LineasShower").on("vclick click", function (e) {
-
-              e.preventDefault();
-              e.stopImmediatePropagation();
-
-              $(e.target).closest('a').toggleClass($.mobile.activeBtnClass);
-
-            });
-          });
-    })();
+           })*/
 
 
 function getRandomColor() {

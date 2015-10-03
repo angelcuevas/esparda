@@ -10,40 +10,8 @@
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
-	<div data-role="page" id="principal">
-		
-		
-		<div data-role="header" class="ui-b" data-theme="b">
-			<h1>San Francisco SA</h1>
-		</div>
-
-		<div data-role="content" class="ui-fondo" data-theme="fondo">
-			<div>
-				<img class="imgfija" src="image/cole.png" />
-			</div>
-
-			<div data-role="collapsible" > <h4 > Recorridos</h4>
-				<ul data-role="listview">
-					<li> <a id="link_linea1" onclick="app.displayPolyLine({ruta:linea3})" href="#LineasShower">Linea 1</a></li>
-					<li> <a href="">Linea2</a></li>
-					<li> <a href="#popup1" data-rel="popup" data-transition="popup">Linea 3</a></li>
-					<li> <a href="">Linea 4</a></li>
-					<li> <a href="">Linea 5</a></li>
-					<li> <a id="link_linea6" href="#LineasShower" onclick="app.displayPolyLine({ruta:linea6})">Linea 6</a></li>
-				</ul>
-			</div>
-			<div data-role="popup" id="popup1" data-theme="b">
-				<h1> Esta hdhsd </h1>
-			</div>
-
-			<div data-role="footer"  data-id="fijo" data-position="fixed">
-			</div>
-		</div>
-	</div>
-
-
+	
 	<div data-role="page" id="LineasShower">
-		
 
 		<div data-role="header" class="ui-b" data-theme="b">
 			<h1>Bienvenidos</h1>
@@ -53,8 +21,8 @@
 		
 			<li > <a href="#"  onclick="position.MarkYourCurrentPosition()" data-role="button"	 data-icon="location"></a></li>
 		   <li > <ul>
-		   <li><a class="toggleLines ida ui-btn-active" href="#" data-icon="carat-u"></a></li>
-		   <li><a class="toggleLines vuelta ui-btn-active" href="#" data-icon="carat-d"></a></li>
+		   <li><a class="toggleLines ida ui-btn-active" onclick="app.togglePolyLines('ida');idaPresionado = !idaPresionado;" href="#" data-icon="carat-u"></a></li>
+		   <li><a class="toggleLines vuelta ui-btn-active" onclick="app.togglePolyLines('vuelta');vueltaPresionado = !vueltaPresionado;" href="#" data-icon="carat-d"></a></li>
 		   </ul>
 		  </li>
 		 </ul>
