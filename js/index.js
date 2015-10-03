@@ -350,7 +350,7 @@ function initMap(){
 
 
         displayPolyLine: function(data){ //pasa la linea y cuales desplegar
-
+            console.log("Displaing polyline");
 
 
              var lineSymbol = {
@@ -411,13 +411,13 @@ function initMap(){
        app.displayEntireRoute("linea3_ida") //<---------SUPUESTA SOLUCIÓN
     });*/
 
-    $("#link_linea1").click(function(){ 
+    /*$("#link_linea1").click(function(){ 
         app.displayPolyLine({ruta:linea3});
     });
 
     $("#link_linea6").click(function(){ 
         app.displayPolyLine({ruta:linea6});
-    });
+    });*/
 
 
 
@@ -558,8 +558,9 @@ function initMap(){
 
     });
 
-
     $("#link_linea1").click();  
+}
+
 
     (function() {
 
@@ -590,7 +591,7 @@ function initMap(){
             });
           });
     })();
-}
+
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
@@ -675,7 +676,6 @@ position = {
     getMatrixResponses: function(origen, destinos){
         var service = new google.maps.DistanceMatrixService;
         _this = this;
-
         for (var i = 0; i <= destinos.length - 1; i = i + 25) {
             service.getDistanceMatrix({
                 origins: [origen],
@@ -698,8 +698,8 @@ position = {
     },
     findTheShorterPath : function(origen, destinos){
         var _this = this;
-        var iIndex;
-        var jIndex;
+        var iIndex = 0;
+        var jIndex = 0;
         var puntoDestino;
 
         if(this.distanceMatrixResponses.length < (Math.ceil(destinos.length / 25))){
