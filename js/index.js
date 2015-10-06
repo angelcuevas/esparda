@@ -689,7 +689,7 @@ position = {
             var request = {
                 origin:origen,
                 destination:puntoDestino,
-                travelMode: google.maps.TravelMode.DRIVING
+                travelMode: google.maps.TravelMode.WALKING
             };
             directionsService.route(request, function(result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
