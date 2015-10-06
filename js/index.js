@@ -622,6 +622,11 @@ position = {
             map.setCenter(LatLng);
             this.markers.push(marker);
 
+            if(!idaPresionado && !vueltaPresionado){
+                alert("Seleccionar al menos un recorrido");
+                return null;
+            }
+
             if (idaPresionado){
                 this.getMatrixResponses(LatLng, app.rutaActual.paradas_ida); //TODO PARADAS DINAMICAS
             }
@@ -660,7 +665,7 @@ position = {
             service.getDistanceMatrix({
                 origins: [origen],
                 destinations: destinos.slice(i,i+24),
-                travelMode: google.maps.TravelMode.DRIVING,
+                travelMode: google.maps.TravelMode.WALKING,
                 unitSystem: google.maps.UnitSystem.METRIC,
                 avoidHighways: false,
                 avoidTolls: false
@@ -678,10 +683,11 @@ position = {
     },
     findTheShorterPath : function(origen, destinos){
         var _this = this;
-        var iIndex = 0;
-        var jIndex = 0;
+        var iIndex;
+        var jIndex;
+        this.distanciaMinima = Infinity;
         var puntoDestino;
-
+        console.log("distanceMatrixResponses.length < (Math.ceil(destinos.length / 25))", this.distanceMatrixResponses.length, "<", (Math.ceil(destinos.length / 25)), "=>", this.distanceMatrixResponses.length < (Math.ceil(destinos.length / 25)))
         if(this.distanceMatrixResponses.length < (Math.ceil(destinos.length / 25))){
             return null;
         }else{
@@ -716,8 +722,6 @@ position = {
               directionsDisplay.setDirections(result);
             }
             });
-
-        this.distanceMatrixResponses = [];
 
         }
     },
