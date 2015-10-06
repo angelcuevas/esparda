@@ -9,42 +9,11 @@ $(window).ready(function () {
 
 function initMap(){
 
-    waypoints = {
-        //Waypoints Linea 0
-        linea0: [],
-        //Waypoints Linea 1
-        linea1: [
-            {lat: -29.40964546680778, lng: -66.9158148765564}, //Inicio de linea 1
-            {location: new google.maps.LatLng(-29.411664231008626, -66.9158148765564), stopover: false}, //Punto 1
-            {location: new google.maps.LatLng(-29.41433716251066, -66.91343307495117), stopover: false},
-            {lat: -29.413839965334418, lng: -66.90354108810425} //Fin de linea 1
-        ],
-
-        linea3_ida: [
-                    {"lat":-29.415911449082568,"lng":-66.85616254806519},
-                    {"lat":-29.4162292005891,"lng":-66.85893058776855},
-                    {"lat":-29.417631033609467,"lng":-66.86015367507935},
-                    {"lat":-29.41886463066967,"lng":-66.85998201370239},
-                    {"lat":-29.420191665330698,"lng":-66.85985326766968},
-                    {"lat":-29.420098212752883,"lng":-66.85837268829346},
-                    {"lat":-29.419967378999527,"lng":-66.85693502426147},
-                    {"lat":-29.419799163926218,"lng":-66.85423135757446},
-                    {"lat":-29.422621402182166,"lng":-66.85388803482056},
-                    {"lat":-29.422378431111962,"lng":-66.85172080993652},
-                    {"lat":-29.420565474782425,"lng":-66.85266494750977},
-                    {"lat":-29.41970571098737,"lng":-66.85127019882202},
-                    {"lat":-29.420584165218894,"lng":-66.8504548072815},
-                    {"lat":-29.418397360818023,"lng":-66.84845924377441},
-                    {"lat":-29.4177992522723,"lng":-66.84953212738037},
-                    {"lat":-29.416864700621357,"lng":-66.84886693954468}
-        ]
-    };
-
      map = new google.maps.Map($map, {
         zoom: 14,
         center: {lat: -29.415742761836693, lng: -66.85974597930908}
     });
-    var directionsService
+
     var directionsService = new google.maps.DirectionsService;
     var directionsDisplay = new google.maps.DirectionsRenderer({
         polylineOptions: {
@@ -54,7 +23,6 @@ function initMap(){
         }
     });
 
-   
 
     if(!window.app)
     window.app ={
@@ -558,7 +526,13 @@ function initMap(){
 
     });
 
-    app.displayPolyLine({ruta:linea3});
+    if (queryString["id"] == "linea3" || queryString["id"] == "linea6"){
+        app.displayPolyLine({ruta: window[queryString["id"]] });
+    }else{
+        alert("Ruta de linea desconocida. Datos no cargados")
+        window.location.href = "./index.html";
+    }
+
 }
 
 
