@@ -1,3 +1,8 @@
+body{
+	position: relative;
+}
+
+
 #map{
     width: 100%;
 }
@@ -6,11 +11,79 @@
     position:relative;
     height: 0px;
     overflow: visible;
-    z-index: 9999;
+    z-index: 2;
 }
 
 .instrumentacion .boton{
     position: relative;
     left: 10px;
     display: block;
+}
+
+
+.boton.ui-link.ui-btn.ui-icon-carat-u.ui-btn-icon-notext.ui-shadow.ui-corner-all,
+.boton.ui-link.ui-btn.ui-icon-carat-d.ui-btn-icon-notext.ui-shadow.ui-corner-all{
+	border: none !important;
+}
+
+
+/*↓↓↓↓↓↓↓↓bubbles↓↓↓↓↓↓↓↓↓↓↓↓*/
+p.speech {
+	display: none;
+  top: 50px;
+  position: fixed !important;
+  padding: 5px !important;
+  padding-right: 10px !important; 
+ *margin: 1em 0 3em;
+  color: white;
+  background: rgb(76,158,217) !important;
+  border-radius: 5px !important;
+  background: linear-gradient(top, #f9d835, #f3961c) !important;
+  z-index: 50 !important;
+  font-size: 0.8em;
+  text-shadow: none !important;
+
+}
+
+/* creates triangle */
+p.speech:after {
+
+
+
+  content: "";
+  display: block; /* reduce the damage in FF3.0 */
+  position: absolute;
+  right: -25px;
+  top: 5px;
+  width: 0;
+  height: 0;
+  width: 0; height: 0; 
+  border-top: 8px solid transparent; 
+  border-left: 25px solid rgb(76,158,217) !important; 
+  border-bottom: 8px solid transparent;
+
+
+
+
+  z-index: 49 !important;
+}
+
+/*↑↑↑↑↑↑↑↑↑bubbles↑↑↑↑↑↑↑↑↑*/
+
+
+
+
+#waiter {
+
+	background: rgba(240,240,240,0.5);
+	height: 100%;
+	width: 100%;
+
+	position: fixed;
+	top: 1px;
+	left: 1px;
+
+	z-index: 3;
+	display: none;
+
 }

@@ -10,6 +10,17 @@
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
+
+	<p class="speech">Encontrar parada más cercana</p>
+	<p class="speech">Ver ruta de ida</p>
+	<p class="speech">Ver ruta de vuelta</p>
+	
+
+	<div id="waiter">
+		
+
+	</div>
+
 	<div data-role="page" id="LineasShower" data-theme="b">
 		<div data-role="header">
 			<h1>T.U. Línea</h1>
@@ -17,8 +28,8 @@
 		</div>
 		<div class="instrumentacion">
 			<a class="boton" href="#" onclick="position.MarkYourCurrentPosition()" data-role="button" data-icon="location" data-iconpos="notext"></a>
-			<a class="boton" href="#" onclick="app.togglePolyLines('ida');idaPresionado = !idaPresionado;" rel="external" data-ajax="false" data-role="button" data-icon="carat-u" data-iconpos="notext"></a>
-			<a class="boton" href="#" onclick="app.togglePolyLines('vuelta');vueltaPresionado = !vueltaPresionado;" rel="external" data-ajax="false" data-role="button" data-icon="carat-d" data-iconpos="notext"></a>
+			<a class="boton" id="button_ida" href="#" onclick="app.togglePolyLines('ida');idaPresionado = !idaPresionado;" rel="external" data-ajax="false" data-role="button" data-icon="carat-u" data-iconpos="notext"></a>
+			<a class="boton"  id="button_vuelta" href="#" onclick="app.togglePolyLines('vuelta');vueltaPresionado = !vueltaPresionado;" rel="external" data-ajax="false" data-role="button" data-icon="carat-d" data-iconpos="notext"></a>
 		</div>
 		<div data-role="content" style="padding: 0px;">
 			<div id="map"></div>

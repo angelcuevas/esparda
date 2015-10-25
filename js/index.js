@@ -2,7 +2,36 @@ $map = document.getElementById("map");
 idaPresionado = true;
 vueltaPresionado = true;
 
+
+    function setWaiting(data){
+
+         $.mobile.loading( 'show', {
+            text: data.txt,
+            textVisible: true,
+            theme: 'z',
+            html: ""
+        });
+
+        $("#waiter").show();
+    }
+
+    function unsetWaiting(){
+         $.mobile.loading( 'hide');
+
+        $("#waiter").hide();
+    }
+
+
 function initMap(){
+
+
+
+
+
+    setWaiting({txt:'Cargando Mapa' })
+
+
+
 
      map = new google.maps.Map($map, {
         zoom: 14,
@@ -30,8 +59,86 @@ function initMap(){
 
         marcadores: [],
 
+        color_de_ida : 'rgb(255,50,50)',
+        color_de_vuelta: 'rgb(15,255,25)',
+
+        showInstructions: function(data){
+
+
+            if(data.show){
+
+                $(".speech").each(function(i){
+                    var bubble = this;
+
+                    setTimeout(function(){
+
+                        $(bubble).fadeIn();
+
+                    }, i*350)
+
+
+                })
+
+
+
+                
+                return;
+            }
+
+            if(data.hide){
+                setTimeout(function(){
+
+                    $(".speech").fadeOut();
+
+                }, 1500);
+             }
+
+
+        },
+
+
+        makeButtonsToggleable: function(){
+            var that = this;
+
+            $("#button_ida").css("background-color",that.color_de_ida);  
+             $("#button_vuelta").css("background-color",that.color_de_vuelta); 
+
+            $("#button_ida").click(function(){
+                if($(this).css("background-color") != "rgb(128, 128, 128)"){
+                    $(this).css("background-color","rgb(128, 128, 128)");  
+                }
+                else
+                    $(this).css("background",that.color_de_ida);      
+            })
+
+            $("#button_vuelta").click(function(){
+                if($(this).css("background-color") != "rgb(128, 128, 128)")
+                    $(this).css("background-color","rgb(128, 128, 128)");    
+                else
+                     $(this).css("background-color",that.color_de_vuelta);  
+            })
+
+        },
+
+
         cargarMapa: function(){
+            var that = this;
+
             directionsDisplay.setMap(map);
+
+
+
+
+            google.maps.event.addListenerOnce(map, 'idle', function(){
+                
+                unsetWaiting();
+
+                that.showInstructions({hide:true});
+
+
+            });
+
+
         },
 
         displayRoute: function(numeroDeLinea){
@@ -314,6 +421,7 @@ function initMap(){
 
         displayPolyLine: function(data){ //pasa la linea y cuales desplegar
             console.log("Displaing polyline");
+            var that = this;
 
 
              var lineSymbol = {
@@ -327,7 +435,7 @@ function initMap(){
             ruta1 = new google.maps.Polyline({
                 path: data.ruta.ida,
                 geodesic: true,
-                strokeColor: "rgb(255,50,50)",
+                strokeColor: that.color_de_ida,
                 strokeOpacity: 0.7,
                 strokeWeight: 3,
                 icons: [{
@@ -343,7 +451,7 @@ function initMap(){
              ruta2 = new google.maps.Polyline({
                 path: data.ruta.vuelta,
                 geodesic: true,
-                strokeColor: "rgb(15,255,25)",
+                strokeColor: that.color_de_vuelta,
                 strokeOpacity: 0.7,
                 strokeWeight: 3,
                 icons: [{
@@ -367,6 +475,8 @@ function initMap(){
     }
 
     app.cargarMapa();
+    app.makeButtonsToggleable();
+    app.showInstructions({show:true});
 
 
     /*$("#linea1").on("pageshow" , function() {
@@ -566,6 +676,9 @@ position = {
                 newPosition = _this.createGoogleMapLatLng(position);
                 _this.addMarkerwithMyPosition(newPosition,map);
             });
+
+            setWaiting({txt:"Calculando"});
+
         }
         else {
             console.log("No Se pudo encontrar tu localización"); 
@@ -580,8 +693,10 @@ position = {
     addMarkerwithMyPosition: function(LatLng,map){
 
         if(idaPresionado && vueltaPresionado){
+            unsetWaiting();
             alert("Desmarque ruta de ida o vuelta, sólo se puede seleccionar una");
         }else{
+
 
             var marker = new google.maps.Marker({
                 position:LatLng,
@@ -592,6 +707,7 @@ position = {
             this.markers.push(marker);
 
             if(!idaPresionado && !vueltaPresionado){
+                unsetWaiting();
                 alert("Seleccionar al menos un recorrido");
                 return null;
             }
@@ -677,8 +793,15 @@ position = {
             
             console.log("puntoDestino", puntoDestino);
 
-            var directionsDisplay = new google.maps.DirectionsRenderer();
-            var directionsService = new google.maps.DirectionsService();
+
+            if(typeof this.directionsDisplay == "undefined"){
+                this.directionsDisplay = new google.maps.DirectionsRenderer();
+                this.directionsService = new google.maps.DirectionsService();
+            }
+
+
+            var directionsDisplay = this.directionsDisplay;
+            var directionsService =  this.directionsService;
 
             directionsDisplay.setMap(map);
             var request = {
@@ -689,6 +812,9 @@ position = {
             directionsService.route(request, function(result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
               directionsDisplay.setDirections(result);
+
+                unsetWaiting();
+
             }
             });
 
