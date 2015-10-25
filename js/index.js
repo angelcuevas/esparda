@@ -2,11 +2,6 @@ $map = document.getElementById("map");
 idaPresionado = true;
 vueltaPresionado = true;
 
-$(window).ready(function () {
-    $("#map").height( $(document).height() - (105) ); //console.log($("#map-header").outerHeight()); tudú;
-});
-
-
 function initMap(){
 
      map = new google.maps.Map($map, {

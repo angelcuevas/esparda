@@ -4,37 +4,40 @@
 	<meta name="format-detection" content="telephone=no" />
 	<meta name="msapplication-tap-highlight" content="no" />
 	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-	<title>Esparda</title>
+	<title>T.U. Línea</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="jquery.mobile/jquery.mobile-1.4.5.css">
+	<link rel="stylesheet" type="text/css" href="jquery.mobile/jquery.mobile-1.4.5.min.css">
+	<link rel="stylesheet" type="text/css" href="css/verde.css">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
 	
-		<div data-role="page" id="principal">
-			
-			
-			<div data-role="header" class="ui-b" data-theme="b">
-				<h1>TULinea</h1>
+		<div data-role="page" data-theme="b" id="principal">
+			<div data-role="header" class="header">
+				<h1>T.U. Línea</h1>
 			</div>
 
-			<div data-role="content" class="ui-fondo" data-theme="fondo">
-				<div>
-					<img class="imgfija" src="image/cole.png" />
+			<div data-role="content">
+
+				<div data-role="collapsible"> <h4 > MuniBus </h4>
+					<ul data-role="listview">
+						<li> <a href="main.html?id=sur" rel="external" data-ajax="false">Sur</a></li>
+						<li> <a href="main.html?id=este" rel="external" data-ajax="false">Este</a></li>
+					</ul>
 				</div>
 
-				<div data-role="collapsible" > <h4 > Recorridos</h4>
+				<div data-role="collapsible"> <h4 > San Francisco S.A. </h4>
 					<ul data-role="listview">
 						<li> <a href="main.html?id=linea1" rel="external" data-ajax="false">Linea 1</a></li>
 						<li> <a href="main.html?id=linea2" rel="external" data-ajax="false">Linea 2</a></li>
 						<li> <a href="main.html?id=linea3" rel="external" data-ajax="false">Linea 3</a></li>
-						<li> <a href="main.html?id=linea4" rel="external" data-ajax="false">Linea 4</a></li>
+						<li> <a href="main.html?id=linea4" rel="external" data-ajax="false">Linea 4a</a></li>
+						<li> <a href="main.html?id=linea4" rel="external" data-ajax="false">Linea 4b</a></li>
 						<li> <a href="main.html?id=linea5" rel="external" data-ajax="false">Linea 5</a></li>
 						<li> <a href="main.html?id=linea6" rel="external" data-ajax="false">Linea 6</a></li>
+						<li> <a href="main.html?id=linea6" rel="external" data-ajax="false">Linea 7</a></li>
+						<li> <a href="main.html?id=linea6" rel="external" data-ajax="false">Linea 8</a></li>
 					</ul>
-				</div>
-				<div data-role="popup" id="popup1" data-theme="b">
-					<h1> Esta hdhsd </h1>
 				</div>
 
 				<div data-role="footer"  data-id="fijo" data-position="fixed">
