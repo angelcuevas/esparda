@@ -672,16 +672,31 @@ position = {
     MarkYourCurrentPosition: function(){
         _this = this;
         if (navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(function(position){
-                newPosition = _this.createGoogleMapLatLng(position);
-                _this.addMarkerwithMyPosition(newPosition,map);
-            });
+
+            navigator.geolocation.getCurrentPosition(
+                function(position){
+                    newPosition = _this.createGoogleMapLatLng(position);
+                    _this.addMarkerwithMyPosition(newPosition,map);
+                },
+                function error(err) {
+                    console.warn('ERROR(' + err.code + '): ' + err.message);
+                    alert("Verifique su conexión de gps: " + err.message);
+                    unsetWaiting()
+                },
+                { 
+                    enableHighAccuracy: true,
+                    timeout: 20000,
+                    maximumAge: 3000
+                }
+            );
 
             setWaiting({txt:"Calculando"});
 
         }
         else {
             console.log("No Se pudo encontrar tu localización"); 
+            alert("Verifique su conexión de gps");
+            unsetWaiting()
         }
     },
     createGoogleMapLatLng : function(position){
