@@ -152,9 +152,13 @@ function displayLogo(){
 							//console.log($(window).width(),$($("#str span")[4]).offset().left,$($("#str span")[4]).outerWidth()  );	
 
 						    setTimeout(function(){
-
 						    	$(document.body).addClass("faded");
-						    },1200)  
+
+						    	setTimeout(function(){
+									window.location.href = "./index.html"
+								}, 700);
+
+						    },1200) ; 
  							
 	   
 
@@ -173,11 +177,7 @@ function displayLogo(){
 
 
 
-				/*window.setTimeout(
-					function(){
-						window.location.href = "./index.html"
-					}, 
-					1,5 * 1000
+				/*window.
 				);*/
 
 
