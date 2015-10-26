@@ -3,52 +3,43 @@
 <head>
 	<title>T.U. Línea</title>
 	<meta charset="utf-8">
-
 	<link rel="stylesheet" type="text/css" href="css/intro.css">
-
 	<SCRIPT TYPE="text/javascript" src="jquery.mobile/jquery-1.7.2.min"></SCRIPT>
-
-
 </head>
 <body>
-
-
 <div >
-
 	<div id="bus"></div>
-
-
 	<div id="corredor"></div>
-
-
 </div>
-
-
-
 <script type="text/javascript">
-		
+
 	var x = -34.2;
 	var i =0; //sprite
 
 	var b = -10;
 	var j = -10;
 
-
-
 	var pseudoAnimacion = setInterval(function(){ 
-
 
 		$("#bus").css("left", b* 10+"px");
 		b++;
-
 
 		if(b > 30){
 			$("#corredor").css("left", j* 10+"px");
 			$("#corredor").css("background-position", i* x+"px 0px");
 			j++;
 
-			if( j*10 > $(window).width())
-			clearInterval(pseudoAnimacion);
+			if( j*10 > $(window).width()){
+				
+				window.setTimeout(
+					function(){
+						window.location.href = "./index.html"
+					}, 
+					1,5 * 1000
+				);
+
+				clearInterval(pseudoAnimacion);
+			}
 		}
 		
 		if(i < 5)
@@ -56,27 +47,7 @@
 		else
 			i = 0;
 
-		
-
-
-
-
-
 	}, 50);
-
-
-
-
-
-
-
-				
-
-		
-
-
-
-
 
 
 

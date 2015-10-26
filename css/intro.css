@@ -3,14 +3,14 @@
 	}	
 
 	body {
-
-
+		max-width: 100%;
+		overflow: hidden;
 	}
 
 	#bus {
 		position: absolute;
 		bottom: 50%;
-
+		left: -100px;
 		width: 200px;
 		height: 90px;
 
@@ -41,4 +41,3 @@
 		background-position: -146px 0px;
 
 	}
-
