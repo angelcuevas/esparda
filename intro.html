@@ -8,16 +8,33 @@
 </head>
 <body>
 <div >
+
+	<div id="str">
+		<span class="capital">T</span>
+		<span class="rest">ransporte</span>
+		<span class="capital">U</span>
+		<span class="rest">rbano</span>
+		<span class="capital">Línea</span>
+
+	</div>
+
+
 	<div id="bus"></div>
 	<div id="corredor"></div>
 </div>
+
 <script type="text/javascript">
 
-	var x = -34.2;
+	var x = -34.2;//offset de Sprite
 	var i =0; //sprite
 
-	var b = -10;
-	var j = -10;
+	var b = -10;//frames del bus
+	var j = -10; //frames del pibe
+	var n = 0 //frames del texto 
+
+	var displayName = false;
+
+	var animationFishished = false;
 
 	var pseudoAnimacion = setInterval(function(){ 
 
@@ -31,15 +48,18 @@
 
 			if( j*10 > $(window).width()){
 				
-				window.setTimeout(
-					function(){
-						window.location.href = "./index.html"
-					}, 
-					1,5 * 1000
-				);
+				displayLogo();
+
 
 				clearInterval(pseudoAnimacion);
+
+
+		
 			}
+
+
+
+
 		}
 		
 		if(i < 5)
@@ -48,6 +68,125 @@
 			i = 0;
 
 	}, 50);
+
+
+function displayLogo(){
+
+				var ancho = 247;
+
+				var izquierda = ($(window).width()/2)-ancho/2;
+
+
+
+
+				$($("#str span")[0]).css("bottom", "60%");
+				$($("#str span")[0]).css("left", izquierda);
+				$($("#str span")[0]).fadeIn('slow');
+
+				var left = 0;
+
+
+
+
+
+				setTimeout(function(){
+					
+					var bottom = $(window).height() - $($("#str span")[0]).offset().top - $($("#str span")[0]).outerHeight();
+					 left = $($("#str span")[0]).offset().left + $($("#str span")[0]).outerWidth()
+
+
+					$($("#str span")[1]).css("bottom", bottom +5);
+					$($("#str span")[1]).css("left", left-5);
+					$($("#str span")[1]).fadeIn('slow');
+
+
+				},400)
+
+
+				setTimeout(function(){
+				$($("#str span")[2]).css("bottom", "50%");
+				$($("#str span")[2]).css("left", left + 15);
+				$($("#str span")[2]).fadeIn('slow');
+
+				},800)	
+
+				var bottom = 0;
+				var left 
+
+				setTimeout(function(){
+
+					 bottom = $(window).height() - $($("#str span")[2]).offset().top - $($("#str span")[2]).outerHeight();
+					 left = $($("#str span")[2]).offset().left + $($("#str span")[2]).outerWidth()
+
+
+
+					$($("#str span")[3]).css("bottom", bottom +5);
+					$($("#str span")[3]).css("left", left);
+					$($("#str span")[3]).fadeIn('slow');
+
+				},1200)	
+
+
+				setTimeout(function(){
+
+					$($("#str span")[4]).css("bottom", bottom);
+					$($("#str span")[4]).css("left", left+15);
+
+
+
+					   $($("#str span")[0]).animate({bottom: bottom});
+					   
+					   $($("#str span")[1]).fadeOut(function(){
+					   	 $($("#str span")[0]).html("T.");
+					   });
+					   $($("#str span")[3]).fadeOut(function(){
+					   		$($("#str span")[2]).html("U.");
+					   		 $($("#str span")[4]).fadeIn("slow");
+
+
+					   		/*var primero = $($("#str span")[0]).offset().left;
+							var ultimo = $(window).width() - ($($("#str span")[4]).offset().left + $($("#str span")[4]).outerWidth());
+							*/
+							
+							//console.log(primero, ultimo);
+							//console.log($(window).width(),$($("#str span")[4]).offset().left,$($("#str span")[4]).outerWidth()  );	
+
+						    setTimeout(function(){
+
+						    	$(document.body).addClass("faded");
+						    },1200)  
+ 							
+	   
+
+
+					   });
+					   
+
+
+					
+
+				}, 1500)
+
+
+
+				
+
+
+
+				/*window.setTimeout(
+					function(){
+						window.location.href = "./index.html"
+					}, 
+					1,5 * 1000
+				);*/
+
+
+
+
+}
+
+
+
 
 
 

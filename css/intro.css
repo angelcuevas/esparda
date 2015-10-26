@@ -1,11 +1,26 @@
 	html{
-				background: rgb(164,192,12);
+				
 	}	
 
 	body {
 		max-width: 100%;
 		overflow: hidden;
+		background: rgb(164,192,12);
+
+	    -webkit-transition: background-color 1s;
+   		-moz-transition: background-color 1s;
+    	-o-transition: background-color 1s;
+        transition: background-color 1s;
+
 	}
+
+	body.faded {
+		background-color: #fff;
+	}
+
+
+
+
 
 	#bus {
 		position: absolute;
@@ -40,4 +55,28 @@
 		background-size: 204px auto;
 		background-position: -146px 0px;
 
+	}
+
+	#str span {
+		color: white;
+		position: absolute;
+		display: none;
+
+		padding: 0px;
+		vertical-align: bottom;
+	}
+
+
+	#str span.capital{
+
+		font-family: verdana;
+		font-size: 3em;
+		font-weight: bold;
+	}
+
+	#str span.rest{
+
+		font-family: verdana;
+		font-size: 1.5em;
+		font-weight: bold;
 	}
