@@ -1,0 +1,44 @@
+	html{
+				background: rgb(164,192,12);
+	}	
+
+	body {
+
+
+	}
+
+	#bus {
+		position: absolute;
+		bottom: 50%;
+
+		width: 200px;
+		height: 90px;
+
+
+
+		background: url("../image/zk6858-lateral.png") no-repeat;
+		background-size: 200px auto;
+
+	}
+
+
+	#corredor {
+
+		position: absolute;
+		bottom: 50%;
+
+		height: 34px;
+		width: 34px;
+
+
+
+		left: -50px;
+
+		border: 1px solid transparent;
+
+		background: url("../image/runningSeo1.png") no-repeat;
+		background-size: 204px auto;
+		background-position: -146px 0px;
+
+	}
+
